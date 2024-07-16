@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Psychedelic Joint Counter - User Guide</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Roboto:wght@300;400;700&display=swap');
+
+        :root {
+            --bg-gradient: linear-gradient(45deg, #ff00ff, #00ffff, #ffff00, #ff00cc, #00ccff);
+            --text-color: #ffffff;
+            --header-footer-bg: rgba(0, 0, 0, 0.7);
+            --content-bg: rgba(0, 0, 0, 0.5);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: var(--bg-gradient);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        header, footer {
+            background-color: var(--header-footer-bg);
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-family: 'Permanent Marker', cursive;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.3);
+        }
+
+        main {
+            flex-grow: 1;
+            padding: 40px 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--content-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        }
+
+        h2, h3 {
+            font-family: 'Permanent Marker', cursive;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.3);
+        }
+
+        p, ul, ol {
+            margin-bottom: 20px;
+        }
+
+        ul, ol {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        .feature {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        footer p {
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            main {
+                padding: 20px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Psychedelic Joint Counter</h1>
+        <p>Embrace the Cosmic Journey of Self-Discovery</p>
+    </header>
+
+    <main>
+        <h2>Welcome to Your Cosmic Companion</h2>
+        <p>The Psychedelic Joint Counter is not just an app; it's a portal to self-awareness and introspection. Whether you're exploring altered states of consciousness or simply looking for a unique way to track your thoughts and experiences, this tool is designed to be your digital confidant on your journey of self-discovery.</p>
+
+        <h3>What It's Good For</h3>
+        <ul>
+            <li>Tracking consumption patterns and their effects on your mental state</li>
+            <li>Documenting moments of clarity and personal insights</li>
+            <li>Collecting and preserving valuable thoughts or ideas ("jewels")</li>
+            <li>Monitoring your mood fluctuations over time</li>
+            <li>Encouraging mindfulness and self-reflection</li>
+        </ul>
+
+        <h3>How to Use the Psychedelic Joint Counter</h3>
+
+        <div class="feature">
+            <h4>1. Counters</h4>
+            <p>At the top of the app, you'll find three counters:</p>
+            <ul>
+                <li><strong>Joint Counter:</strong> Click "Add Joint" each time you consume. This helps track your usage patterns.</li>
+                <li><strong>Clarity Moments:</strong> Hit "Add Clarity" when you experience a moment of heightened awareness or insight.</li>
+                <li><strong>Jewels Collected:</strong> Press "Add Jewel" to record particularly valuable thoughts or ideas that come to you.</li>
+            </ul>
+        </div>
+
+        <div class="feature">
+            <h4>2. Cosmic Insights (Notes)</h4>
+            <p>Use the "Cosmic Insights" section to record your thoughts, experiences, or revelations:</p>
+            <ol>
+                <li>Click in the text area to start typing.</li>
+                <li>Use the formatting buttons (Bold, Italic, etc.) to style your text if desired.</li>
+                <li>Click "Save Insight" to store your note.</li>
+                <li>Your saved insights will appear below, where you can review, edit, or delete them later.</li>
+            </ol>
+        </div>
+
+        <div class="feature">
+            <h4>3. Mood Tracker</h4>
+            <p>Track your emotional state by clicking one of the mood emojis:</p>
+            <ul>
+                <li>😊 for happy</li>
+                <li>😐 for neutral</li>
+                <li>😢 for sad</li>
+            </ul>
+            <p>The Mood Mandala chart will update to reflect your mood patterns over time.</p>
+        </div>
+
+        <div class="feature">
+            <h4>4. Cosmic Statistics</h4>
+            <p>At the bottom of the app, you'll find statistics that provide insights into your usage and experiences:</p>
+            <ul>
+                <li>Current date and time</li>
+                <li>Average joints, clarity moments, and jewels collected per day</li>
+            </ul>
+            <p>These stats help you understand your patterns and progress over time.</p>
+        </div>
+
+        <h3>Tips for a Cosmic Experience</h3>
+        <ul>
+            <li>Use the app regularly to build a comprehensive record of your journey.</li>
+            <li>Be honest and open in your notes - this is your personal space for reflection.</li>
+            <li>Pay attention to correlations between your consumption, mood, and insights.</li>
+            <li>Review your past entries periodically to track your growth and recurring themes.</li>
+            <li>Remember, the app is a tool for self-discovery - let it guide you, but trust your own intuition above all.</li>
+        </ul>
+
+        <p>Embrace the journey, cosmic explorer. May this tool help you navigate the vast expanses of your inner universe and bring you to new realms of self-understanding.</p>
+    </main>
+
+    <footer>
+        <p>🌈 Psychedelic Joint Counter - Expanding Minds, One Click at a Time 🌈</p>
+        <p>Created by Vipul Anand in India, for USA meditators and stoners.</p>
+        <p>Remember: Use responsibly and stay groovy!</p>
+    </footer>
+</body>
+</html>
