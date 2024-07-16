@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Psychedelic Joint Counter App</title>
+  <style>
+  body {
+    background: linear-gradient(45deg, #ff00ff, #00ffff, #ffff00, #ff00cc, #00ccff, #ccff00);
+    background-size: 600% 600%;
+    animation: gradientShift 20s ease infinite;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+button {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+  </style>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Roboto:wght@300;400;700&display=swap');
+
+        :root {
+            --bg-gradient: linear-gradient(45deg, #ff00ff, #00ffff, #ffff00);
+            --text-color: #ffffff;
+            --counter-bg: rgba(255, 255, 255, 0.1);
+            --note-bg: rgba(0, 0, 0, 0.6);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: var(--bg-gradient);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        h1, h2 {
+            font-family: 'Permanent Marker', cursive;
+            text-align: center;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .counters {
+            display: grid;
+            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            margin-bottom: 20px;
+        }
+
+        .counter {
+            background-color: var(--counter-bg);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .counter:hover {
+            transform: translateY(-5px) rotate(2deg);
+            box-shadow: 0 6px 12px rgba(255, 255, 255, 0.2);
+        }
+
+        .counter-value {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        button {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: var(--text-color);
+            border: none;
+            padding: 10px 15px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Permanent Marker', cursive;
+            font-size: 1rem;
+        }
+
+        button:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+            transform: scale(1.05) rotate(-2deg);
+        }
+
+        .notes {
+            margin-top: 20px;
+            background-color: var(--note-bg);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .notes h2 {
+            color: #ffff00;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        #noteEditor {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 15px;
+            resize: vertical;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: var(--text-color);
+            font-family: 'Roboto', sans-serif;
+            min-height: 100px;
+            margin-bottom: 10px;
+        }
+
+        .format-menu {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .format-menu button {
+            padding: 5px 10px;
+            font-size: 0.9rem;
+        }
+
+        #notesDisplay {
+            margin-top: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .note-entry {
+            background-color: rgba(255, 255, 255, 0.2);
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .note-entry p {
+            margin-bottom: 5px;
+        }
+
+        .note-entry .timestamp {
+            font-size: 0.8em;
+            color: #aaa;
+        }
+
+        .mood-tracker {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .mood-btn {
+            flex: 1;
+            margin: 0 5px;
+            padding: 10px;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 2rem;
+        }
+
+        .mood-btn:hover {
+            transform: scale(1.1) rotate(10deg);
+        }
+
+        .mood-btn.happy { background-color: #ffd700; }
+        .mood-btn.neutral { background-color: #bdc3c7; }
+        .mood-btn.sad { background-color: #3498db; }
+
+        #moodChart {
+            width: 100%;
+            height: 200px;
+            margin-top: 20px;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .counters {
+                grid-template-columns: 1fr;
+            }
+            
+            .counter-value {
+                font-size: 2.5rem;
+            }
+            
+            .mood-btn {
+                font-size: 1.5rem;
+            }
+
+            .format-menu {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Psychedelic Joint Counter</h1>
+        <div class="counters">
+            <div class="counter">
+                <h2>Joint Counter</h2>
+                <div class="counter-value" id="jointCount">0</div>
+                <button onclick="incrementCounter('joint')">Add Joint</button>
+            </div>
+            <div class="counter">
+                <h2>Clarity Moments</h2>
+                <div class="counter-value" id="clarityCount">0</div>
+                <button onclick="incrementCounter('clarity')">Add Clarity</button>
+            </div>
+            <div class="counter">
+                <h2>Jewels Collected</h2>
+                <div class="counter-value" id="jewelsCount">0</div>
+                <button onclick="incrementCounter('jewels')">Add Jewel</button>
+            </div>
+        </div>
+        <div class="notes">
+            <h2>Cosmic Insights</h2>
+            <div class="format-menu">
+                <button onclick="formatText('bold')">Bold</button>
+                <button onclick="formatText('italic')">Italic</button>
+                <button onclick="formatText('underline')">Underline</button>
+                <button onclick="formatText('strikethrough')">Strikethrough</button>
+                <button onclick="formatText('insertUnorderedList')">Bullet List</button>
+                <button onclick="formatText('insertOrderedList')">Numbered List</button>
+            </div>
+            <div id="noteEditor" contenteditable="true" placeholder="Record your cosmic thoughts and insights..."></div>
+            <button onclick="saveNote()">Save Insight</button>
+            <div id="notesDisplay"></div>
+        </div>
+        <div class="mood-tracker">
+            <button class="mood-btn happy" onclick="trackMood('happy')">😊</button>
+            <button class="mood-btn neutral" onclick="trackMood('neutral')">😐</button>
+            <button class="mood-btn sad" onclick="trackMood('sad')">😢</button>
+        </div>
+        <div class="mood-summary">
+            <h2>Mood Mandala</h2>
+            <canvas id="moodChart"></canvas>
+        </div>
+        <div class="statistics">
+            <h2>Cosmic Statistics</h2>
+            <p>Stardate: <span id="currentDate"></span></p>
+            <p>Cosmic Time: <span id="currentTime"></span></p>
+            <p>Average Joints per Orbit: <span id="avgJoints">0</span></p>
+            <p>Average Clarity Moments per Orbit: <span id="avgClarity">0</span></p>
+            <p>Average Jewels Collected per Orbit: <span id="avgJewels">0</span></p>
+        </div>
+    </div>
+
+    <script>
+        let jointCount = 0;
+        let clarityCount = 0;
+        let jewelsCount = 0;
+        let moodData = [];
+        let notes = [];
+        let startDate = new Date();
+        let moodChart;
+
+        function incrementCounter(type) {
+            switch(type) {
+                case 'joint':
+                    jointCount++;
+                    document.getElementById('jointCount').textContent = jointCount;
+                    break;
+                case 'clarity':
+                    clarityCount++;
+                    document.getElementById('clarityCount').textContent = clarityCount;
+                    break;
+                case 'jewels':
+                    jewelsCount++;
+                    document.getElementById('jewelsCount').textContent = jewelsCount;
+                    break;
+            }
+            updateStatistics();
+            saveCounterData();
+            triggerPsychedelicEffect();
+        }
+
+        function trackMood(mood) {
+            moodData.push({ mood, timestamp: new Date() });
+            updateMoodChart();
+            saveMoodData();
+            triggerPsychedelicEffect();
+        }
+
+        function updateStatistics() {
+            const currentDate = new Date();
+            const daysPassed = Math.max(1, Math.ceil((currentDate - startDate) / (1000 * 60 * 60 * 24)));
+
+            document.getElementById('currentDate').textContent = currentDate.toLocaleDateString();
+            document.getElementById('currentTime').textContent = currentDate.toLocaleTimeString();
+            document.getElementById('avgJoints').textContent = (jointCount / daysPassed).toFixed(2);
+            document.getElementById('avgClarity').textContent = (clarityCount / daysPassed).toFixed(2);
+            document.getElementById('avgJewels').textContent = (jewelsCount / daysPassed).toFixed(2);
+        }
+
+        function updateMoodChart() {
+            const moodCounts = { happy: 0, neutral: 0, sad: 0 };
+            moodData.forEach(entry => moodCounts[entry.mood]++);
+
+            const data = {
+                labels: ['Happy', 'Neutral', 'Sad'],
+                datasets: [{
+                    data: [moodCounts.happy, moodCounts.neutral, moodCounts.sad],
+                    backgroundColor: ['#ffd700', '#bdc3c7', '#3498db']
+                }]
+            };
+
+            if (moodChart) {
+                moodChart.data = data;
+                moodChart.update();
+            } else {
+                const ctx = document.getElementById('moodChart').getContext('2d');
+                moodChart = new Chart(ctx, {
+                    type: 'polarArea',
+                    data: data,
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                            },
+                            title: {
+                                display: true,
+                                text: 'Mood Mandala',
+                                color: '#ffffff'
+                            }
+                        },
+                        scales: {
+                            r: {
+                                ticks: {
+                                    color: '#ffffff'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        function formatText(command) {
+            document.execCommand(command, false, null);
+        }
+
+        function saveNote() {
+            const noteContent = document.getElementById('noteEditor').innerHTML;
+            const timestamp = new Date().toLocaleString();
+            notes.unshift({ content: noteContent, timestamp: timestamp });
+            localStorage.setItem('notes', JSON.stringify(notes));
+            document.getElementById('noteEditor').innerHTML = '';
+            displayNotes();
+            alert('Your cosmic insight has been saved!');
+        }
+
+        function displayNotes() {
+            const notesDisplay = document.getElementById('notesDisplay');
+            notesDisplay.innerHTML = '';
+            notes.forEach((note, index) => {
+                const noteElement = document.createElement('div');
+                noteElement.className = 'note-entry';
+                noteElement.innerHTML = `
+                    <p>${note.content}</p>
+                    <p class="timestamp">${note.timestamp}</p>
+                    <button onclick="editNote(${index})">Edit</button>
+                    <button onclick="deleteNote(${index})">Delete</button>
+                `;
+                notesDisplay.appendChild(noteElement);
+            });
+        }
+
+        function editNote(index) {
+            const noteEditor = document.getElementById('noteEditor');
+            noteEditor.innerHTML = notes[index].content;
+            notes.splice(index, 1);
+            displayNotes();
+        }
+
+        function deleteNote(index) {
+            if (confirm('Are you sure you want to delete this cosmic insight?')) {
+                notes.splice(index, 1);
+                localStorage.setItem('notes', JSON.stringify(notes));
+                displayNotes();
+            }
+        }
+
+        function saveMoodData() {
+            localStorage.setItem('moodData', JSON.stringify(moodData));
+        }
+
+       function saveCounterData() {
+            localStorage.setItem('counterData', JSON.stringify({
+                jointCount,
+                clarityCount,
+                jewelsCount,
+                startDate
+            }));
+        }
+
+        function loadData() {
+            const savedMoodData = localStorage.getItem('moodData');
+            if (savedMoodData) {
+                moodData = JSON.parse(savedMoodData);
+                updateMoodChart();
+            }
+
+            const savedCounterData = localStorage.getItem('counterData');
+            if (savedCounterData) {
+                const data = JSON.parse(savedCounterData);
+                jointCount = data.jointCount || 0;
+                clarityCount = data.clarityCount || 0;
+                jewelsCount = data.jewelsCount || 0;
+                startDate = new Date(data.startDate);
+
+                document.getElementById('jointCount').textContent = jointCount;
+                document.getElementById('clarityCount').textContent = clarityCount;
+                document.getElementById('jewelsCount').textContent = jewelsCount;
+            }
+
+            const savedNotes = localStorage.getItem('notes');
+            if (savedNotes) {
+                notes = JSON.parse(savedNotes);
+                displayNotes();
+            }
+
+            updateStatistics();
+        }
+
+        function triggerPsychedelicEffect() {
+            document.body.style.animation = 'none';
+            document.body.offsetHeight; // Trigger reflow
+            document.body.style.animation = null;
+            
+            const counters = document.querySelectorAll('.counter');
+            counters.forEach(counter => {
+                counter.style.transform = `rotate(${Math.random() * 10 - 5}deg)`;
+            });
+        }
+
+        // Update time every second
+        setInterval(() => {
+            document.getElementById('currentTime').textContent = new Date().toLocaleTimeString();
+        }, 1000);
+
+        // Initial data load
+        loadData();
+
+        // Set up the note editor
+        const noteEditor = document.getElementById('noteEditor');
+        noteEditor.addEventListener('focus', function() {
+            if (this.innerHTML === this.getAttribute('placeholder')) {
+                this.innerHTML = '';
+            }
+        });
+
+        noteEditor.addEventListener('blur', function() {
+            if (this.innerHTML === '') {
+                this.innerHTML = this.getAttribute('placeholder');
+            }
+        });
+
+        // Trigger the blur event to set initial placeholder
+        noteEditor.dispatchEvent(new Event('blur'));
+  </script>
+  
+  <script>
+  let jointCount = 0;
+        let clarityCount = 0;
+        let jewelsCount = 0;
+        let moodData = [];
+        let notes = [];
+        let startDate = new Date();
+        let moodChart;
+
+        function incrementCounter(type) {
+            switch(type) {
+                case 'joint':
+                    jointCount++;
+                    document.getElementById('jointCount').textContent = jointCount;
+                    break;
+                case 'clarity':
+                    clarityCount++;
+                    document.getElementById('clarityCount').textContent = clarityCount;
+                    break;
+                case 'jewels':
+                    jewelsCount++;
+                    document.getElementById('jewelsCount').textContent = jewelsCount;
+                    break;
+            }
+            updateStatistics();
+            saveCounterData();
+            triggerPsychedelicEffect();
+        }
+
+        function trackMood(mood) {
+            moodData.push({ mood, timestamp: new Date() });
+            updateMoodChart();
+            saveMoodData();
+            triggerPsychedelicEffect();
+        }
+
+        function updateStatistics() {
+            const currentDate = new Date();
+            const daysPassed = Math.max(1, Math.ceil((currentDate - startDate) / (1000 * 60 * 60 * 24)));
+
+            document.getElementById('currentDate').textContent = currentDate.toLocaleDateString();
+            document.getElementById('currentTime').textContent = currentDate.toLocaleTimeString();
+            document.getElementById('avgJoints').textContent = (jointCount / daysPassed).toFixed(2);
+            document.getElementById('avgClarity').textContent = (clarityCount / daysPassed).toFixed(2);
+            document.getElementById('avgJewels').textContent = (jewelsCount / daysPassed).toFixed(2);
+        }
+
+        function updateMoodChart() {
+            const moodCounts = { happy: 0, neutral: 0, sad: 0 };
+            moodData.forEach(entry => moodCounts[entry.mood]++);
+
+            const data = {
+                labels: ['Happy', 'Neutral', 'Sad'],
+                datasets: [{
+                    data: [moodCounts.happy, moodCounts.neutral, moodCounts.sad],
+                    backgroundColor: ['#ffd700', '#bdc3c7', '#3498db']
+                }]
+            };
+
+            if (moodChart) {
+                moodChart.data = data;
+                moodChart.update();
+            } else {
+                const ctx = document.getElementById('moodChart').getContext('2d');
+                moodChart = new Chart(ctx, {
+                    type: 'polarArea',
+                    data: data,
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                            },
+                            title: {
+                                display: true,
+                                text: 'Mood Mandala',
+                                color: '#ffffff'
+                            }
+                        },
+                        scales: {
+                            r: {
+                                ticks: {
+                                    color: '#ffffff'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        function formatText(command) {
+            document.execCommand(command, false, null);
+        }
+
+        function saveNote() {
+            const noteContent = document.getElementById('noteEditor').innerHTML;
+            if (noteContent.trim() === '' || noteContent === document.getElementById('noteEditor').getAttribute('placeholder')) {
+                alert('Please enter some content for your cosmic insight!');
+                return;
+            }
+            const timestamp = new Date().toLocaleString();
+            notes.unshift({ content: noteContent, timestamp: timestamp });
+            localStorage.setItem('notes', JSON.stringify(notes));
+            document.getElementById('noteEditor').innerHTML = '';
+            displayNotes();
+            alert('Your cosmic insight has been saved!');
+        }
+
+        function displayNotes() {
+            const notesDisplay = document.getElementById('notesDisplay');
+            notesDisplay.innerHTML = '';
+            notes.forEach((note, index) => {
+                const noteElement = document.createElement('div');
+                noteElement.className = 'note-entry';
+                noteElement.innerHTML = `
+                    <p>${note.content}</p>
+                    <p class="timestamp">${note.timestamp}</p>
+                    <button onclick="editNote(${index})">Edit</button>
+                    <button onclick="deleteNote(${index})">Delete</button>
+                `;
+                notesDisplay.appendChild(noteElement);
+            });
+        }
+
+        function editNote(index) {
+            const noteEditor = document.getElementById('noteEditor');
+            noteEditor.innerHTML = notes[index].content;
+            notes.splice(index, 1);
+            displayNotes();
+        }
+
+        function deleteNote(index) {
+            if (confirm('Are you sure you want to delete this cosmic insight?')) {
+                notes.splice(index, 1);
+                localStorage.setItem('notes', JSON.stringify(notes));
+                displayNotes();
+            }
+        }
+
+        function saveMoodData() {
+            localStorage.setItem('moodData', JSON.stringify(moodData));
+        }
+
+        function saveCounterData() {
+            localStorage.setItem('counterData', JSON.stringify({
+                jointCount,
+                clarityCount,
+                jewelsCount,
+                startDate
+            }));
+        }
+
+        function loadData() {
+            const savedMoodData = localStorage.getItem('moodData');
+            if (savedMoodData) {
+                moodData = JSON.parse(savedMoodData);
+                updateMoodChart();
+            }
+
+            const savedCounterData = localStorage.getItem('counterData');
+            if (savedCounterData) {
+                const data = JSON.parse(savedCounterData);
+                jointCount = data.jointCount || 0;
+                clarityCount = data.clarityCount || 0;
+                jewelsCount = data.jewelsCount || 0;
+                startDate = new Date(data.startDate);
+
+                document.getElementById('jointCount').textContent = jointCount;
+                document.getElementById('clarityCount').textContent = clarityCount;
+                document.getElementById('jewelsCount').textContent = jewelsCount;
+            }
+
+            const savedNotes = localStorage.getItem('notes');
+            if (savedNotes) {
+                notes = JSON.parse(savedNotes);
+                displayNotes();
+            }
+
+            updateStatistics();
+        }
+
+        function triggerPsychedelicEffect() {
+            document.body.style.animation = 'none';
+            document.body.offsetHeight; // Trigger reflow
+            document.body.style.animation = null;
+            
+            const counters = document.querySelectorAll('.counter');
+            counters.forEach(counter => {
+                counter.style.transform = `rotate(${Math.random() * 10 - 5}deg)`;
+            });
+        }
+
+        // Update time every second
+        setInterval(() => {
+            document.getElementById('currentTime').textContent = new Date().toLocaleTimeString();
+        }, 1000);
+
+        // Initial data load
+        loadData();
+
+        // Set up the note editor
+        const noteEditor = document.getElementById('noteEditor');
+        noteEditor.addEventListener('focus', function() {
+            if (this.innerHTML === this.getAttribute('placeholder')) {
+                this.innerHTML = '';
+            }
+        });
+
+        noteEditor.addEventListener('blur', function() {
+            if (this.innerHTML === '') {
+                this.innerHTML = this.getAttribute('placeholder');
+            }
+        });
+
+        // Trigger the blur event to set initial placeholder
+        noteEditor.dispatchEvent(new Event('blur'));
+  
+  </script>
+  <script>
+        // Global variables
+        let jointCount = 0;
+        let clarityCount = 0;
+        let jewelsCount = 0;
+        let moodData = [];
+        let notes = [];
+        let startDate = new Date();
+        let moodChart;
+
+        function incrementCounter(type) {
+            switch(type) {
+                case 'joint':
+                    jointCount++;
+                    document.getElementById('jointCount').textContent = jointCount;
+                    break;
+                case 'clarity':
+                    clarityCount++;
+                    document.getElementById('clarityCount').textContent = clarityCount;
+                    break;
+                case 'jewels':
+                    jewelsCount++;
+                    document.getElementById('jewelsCount').textContent = jewelsCount;
+                    break;
+            }
+            updateStatistics();
+            saveCounterData();
+            triggerPsychedelicEffect();
+        }
+
+        function trackMood(mood) {
+            moodData.push({ mood, timestamp: new Date() });
+            updateMoodChart();
+            saveMoodData();
+            triggerPsychedelicEffect();
+        }
+
+        function updateStatistics() {
+            const currentDate = new Date();
+            const daysPassed = Math.max(1, Math.ceil((currentDate - startDate) / (1000 * 60 * 60 * 24)));
+
+            document.getElementById('currentDate').textContent = currentDate.toLocaleDateString();
+            document.getElementById('currentTime').textContent = currentDate.toLocaleTimeString();
+            document.getElementById('avgJoints').textContent = (jointCount / daysPassed).toFixed(2);
+            document.getElementById('avgClarity').textContent = (clarityCount / daysPassed).toFixed(2);
+            document.getElementById('avgJewels').textContent = (jewelsCount / daysPassed).toFixed(2);
+        }
+
+        function updateMoodChart() {
+            const moodCounts = { happy: 0, neutral: 0, sad: 0 };
+            moodData.forEach(entry => moodCounts[entry.mood]++);
+
+            const data = {
+                labels: ['Happy', 'Neutral', 'Sad'],
+                datasets: [{
+                    data: [moodCounts.happy, moodCounts.neutral, moodCounts.sad],
+                    backgroundColor: ['#ffd700', '#bdc3c7', '#3498db']
+                }]
+            };
+
+            if (moodChart) {
+                moodChart.data = data;
+                moodChart.update();
+            } else {
+                const ctx = document.getElementById('moodChart').getContext('2d');
+                moodChart = new Chart(ctx, {
+                    type: 'polarArea',
+                    data: data,
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                            },
+                            title: {
+                                display: true,
+                                text: 'Mood Mandala',
+                                color: '#ffffff'
+                            }
+                        },
+                        scales: {
+                            r: {
+                                ticks: {
+                                    color: '#ffffff'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        function formatText(command) {
+            document.execCommand(command, false, null);
+        }
+
+        function saveNote() {
+            const noteContent = document.getElementById('noteEditor').innerHTML;
+            if (noteContent.trim() === '' || noteContent === document.getElementById('noteEditor').getAttribute('placeholder')) {
+                alert('Please enter some content for your cosmic insight!');
+                return;
+            }
+            const timestamp = new Date().toLocaleString();
+            notes.unshift({ content: noteContent, timestamp: timestamp });
+            localStorage.setItem('notes', JSON.stringify(notes));
+            document.getElementById('noteEditor').innerHTML = '';
+            displayNotes();
+            alert('Your cosmic insight has been saved!');
+        }
+
+        function displayNotes() {
+            const notesDisplay = document.getElementById('notesDisplay');
+            notesDisplay.innerHTML = '';
+            notes.forEach((note, index) => {
+                const noteElement = document.createElement('div');
+                noteElement.className = 'note-entry';
+                noteElement.innerHTML = `
+                    <p>${note.content}</p>
+                    <p class="timestamp">${note.timestamp}</p>
+                    <button onclick="editNote(${index})">Edit</button>
+                    <button onclick="deleteNote(${index})">Delete</button>
+                `;
+                notesDisplay.appendChild(noteElement);
+            });
+        }
+
+        function editNote(index) {
+            const noteEditor = document.getElementById('noteEditor');
+            noteEditor.innerHTML = notes[index].content;
+            notes.splice(index, 1);
+            displayNotes();
+        }
+
+        function deleteNote(index) {
+            if (confirm('Are you sure you want to delete this cosmic insight?')) {
+                notes.splice(index, 1);
+                localStorage.setItem('notes', JSON.stringify(notes));
+                displayNotes();
+            }
+        }
+
+        function saveMoodData() {
+            localStorage.setItem('moodData', JSON.stringify(moodData));
+        }
+
+        function saveCounterData() {
+            localStorage.setItem('counterData', JSON.stringify({
+                jointCount,
+                clarityCount,
+                jewelsCount,
+                startDate
+            }));
+        }
+
+        function loadData() {
+            const savedMoodData = localStorage.getItem('moodData');
+            if (savedMoodData) {
+                moodData = JSON.parse(savedMoodData);
+                updateMoodChart();
+            }
+
+            const savedCounterData = localStorage.getItem('counterData');
+            if (savedCounterData) {
+                const data = JSON.parse(savedCounterData);
+                jointCount = data.jointCount || 0;
+                clarityCount = data.clarityCount || 0;
+                jewelsCount = data.jewelsCount || 0;
+                startDate = new Date(data.startDate);
+
+                document.getElementById('jointCount').textContent = jointCount;
+                document.getElementById('clarityCount').textContent = clarityCount;
+                document.getElementById('jewelsCount').textContent = jewelsCount;
+            }
+
+            const savedNotes = localStorage.getItem('notes');
+            if (savedNotes) {
+                notes = JSON.parse(savedNotes);
+                displayNotes();
+            }
+
+            updateStatistics();
+        }
+
+        function triggerPsychedelicEffect() {
+            document.body.style.animation = 'none';
+            document.body.offsetHeight; // Trigger reflow
+            document.body.style.animation = null;
+            
+            const counters = document.querySelectorAll('.counter');
+            counters.forEach(counter => {
+                counter.style.transform = `rotate(${Math.random() * 10 - 5}deg)`;
+            });
+        }
+
+        // Update time every second
+        setInterval(() => {
+            document.getElementById('currentTime').textContent = new Date().toLocaleTimeString();
+        }, 1000);
+
+        // Initial data load
+        loadData();
+
+        // Set up the note editor
+        const noteEditor = document.getElementById('noteEditor');
+        noteEditor.addEventListener('focus', function() {
+            if (this.innerHTML === this.getAttribute('placeholder')) {
+                this.innerHTML = '';
+            }
+        });
+
+        noteEditor.addEventListener('blur', function() {
+            if (this.innerHTML === '') {
+                this.innerHTML = this.getAttribute('placeholder');
+            }
+        });
+
+        // Trigger the blur event to set initial placeholder
+        noteEditor.dispatchEvent(new Event('blur'));
+    </script>
+</body>
+</html>
+  </body>
+    
+  </html>
